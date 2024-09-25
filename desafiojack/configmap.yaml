@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-html-configmap
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bem-vinda à Jack Experts</title>
+        <style>
+            .container {
+                display: flex;
+                align-items: center; /* Alinha verticalmente */
+                justify-content: center; /* Centraliza horizontalmente */
+                text-align: left; /* Alinha o texto à esquerda */
+                margin: 20px;
+            }
+            .container img {
+                max-width: 200px; /* Define a largura máxima da imagem */
+                margin-right: 40px; /* Espaço entre a imagem e o texto */
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="text-align:center;">Estágio na Jack Experts</h1>
+        <h3 style="text-align:center; background-color:rgb(255, 184, 51 );">Mensagem de Boas-vindas</h3>
+
+        <div class="container">
+            <img src="image.png" alt="girafa da jack experts">
+            <p>Meu nome é Aline Teles e estou em busca de uma oportunidade para a minha primeira experiência profissional na área de cloud computing.
+                 Quero expressar minha gratidão à Jack Experts pela oportunidade e por todo o apoio durante este processo de seleção.
+            </p>
+        </div>
+        <p style="background-color:rgb(255, 184, 51 );"> . </p>
+    </body>
+    </html>
