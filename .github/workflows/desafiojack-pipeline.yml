@@ -42,7 +42,7 @@ jobs:
 
     - name: Set up Kubeconfig
       run: |
-        echo "${{ secrets.KUBECONFIG}}" > $HOME/.kube/config
+        echo "${{ secrets.KUBECONFIG}}" > $~/.kube/config
 
     - name: Helm install/upgrade
       run: |
