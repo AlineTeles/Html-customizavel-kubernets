@@ -1,13 +1,6 @@
-name: desafiojack-pipeline
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - name: Checkout the repository
@@ -22,30 +15,28 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build Docker image
+    - name: Build and push Docker image
       run: |
-        docker build -t sitejack:latest .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/sitejack:latest .
+        docker push ${{ secrets.DOCKER_USERNAME }}/sitejack:latest
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
 
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v2
 
-    - name: Install kubectl
-      run: |
-        curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
-        chmod +x ./kubectl
-        sudo mv ./kubectl /usr/local/bin/kubectl
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v1
+      with:
+        version: 'v1.21.0'
 
     - name: Set up Kubeconfig
       run: |
-        mkdir -p $HOME/.kube
-        echo "${{ secrets.KUBE_CONFIG}}" > $HOME/.kube/config
+        echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
 
     - name: Helm install/upgrade
       run: |
         helm upgrade --install v2 ./desafiojack --namespace default
-        
