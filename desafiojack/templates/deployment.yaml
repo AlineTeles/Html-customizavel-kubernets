@@ -4,6 +4,7 @@ metadata:
   name: {{ include "desafiojack.fullname" . }}
   labels:
     {{- include "desafiojack.labels" . | nindent 4 }}
+    desafio: jackexperts  # Adicionando a label
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -22,6 +23,7 @@ spec:
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        desafio: jackexperts  # Adicionando a label
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
